@@ -58,7 +58,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar bg-black p-5">
+      <div className="navbar bg-black p-2 fixed z-10 bg-opacity-30">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -94,8 +94,8 @@ const Navbar = () => {
             {navOptions}
           </ul>
         </div>
-        <div className="navbar-end">
-          <div className="dropdown dropdown-end">
+        <div>
+          <div className="dropdown dropdown-end ml-2">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img src="https://www.summithealth.org.au/wp-content/uploads/2021/07/placeholder.jpg" />
