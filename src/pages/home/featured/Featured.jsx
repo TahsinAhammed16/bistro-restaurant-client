@@ -5,7 +5,7 @@ import SectionTitle from "../../../components/sectionTitle/SectionTitle";
 const Featured = () => {
   return (
     <div
-      className="text-white pt-3 my-24"
+      className="text-white pt-3 my-24 bg-fixed"
       style={{
         backgroundImage: `url(${featuredBg})`,
         backgroundColor: "rgba(0, 0, 0, 0.2)",
