@@ -35,7 +35,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/messages"
+          to="/menu"
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "text-[#EEFF25]" : ""
           }
