@@ -1,17 +1,47 @@
 import { Helmet } from "react-helmet-async";
-import menuImg from "../../../assets/menu/banner3.jpg";
 import Cover from "../../shared/cover/Cover";
-console.log(menuImg);
+import useMenu from "../../../hooks/useMenu";
+import menuImg from "../../../assets/menu/banner3.jpg";
+import soupImg from "../../../assets/menu/soup-bg.jpg";
+import saladImg from "../../../assets/menu/salad-bg.jpg";
+import pizzaImg from "../../../assets/menu/pizza-bg.jpg";
+import dessertImg from "../../../assets/menu/dessert-bg.jpeg";
+import SectionTitle from "../../../components/sectionTitle/SectionTitle";
+import MenuCategory from "../MenuCategory/MenuCategory.JSX";
 
 const Menu = () => {
+  const [menu] = useMenu();
+  // console.log(menu)
+  const offered = menu.filter((item) => item.category === "offered");
+  const desserts = menu.filter((item) => item.category === "dessert");
+  const soup = menu.filter((item) => item.category === "soup");
+  const salad = menu.filter((item) => item.category === "salad");
+  const pizza = menu.filter((item) => item.category === "pizza");
   return (
     <div>
       <Helmet>
         <title>Bistro Boss | Menu</title>
       </Helmet>
 
+      {/* main cover */}
       <Cover img={menuImg} title="OUR MENU"></Cover>
-  
+
+      {/* title  */}
+      <SectionTitle
+        subHeading="Don't Miss"
+        heading="Today's Offer"
+      ></SectionTitle>
+      
+      {/* menu items */}
+      <MenuCategory items={offered}></MenuCategory>
+      <MenuCategory
+        items={desserts}
+        title="Dessert"
+        img={dessertImg}
+      ></MenuCategory>
+      <MenuCategory items={pizza} title={"Pizza"} img={pizzaImg}></MenuCategory>
+      <MenuCategory items={salad} title={"Salad"} img={saladImg}></MenuCategory>
+      <MenuCategory items={soup} title={"Soup"} img={soupImg}></MenuCategory>
     </div>
   );
 };
