@@ -1,38 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import bgImage from "../../assets/others/authentication.png";
 import loginImage from "../../assets/others/authentication2.png";
-import {
-  loadCaptchaEnginge,
-  LoadCanvasTemplate,
-  validateCaptcha,
-} from "react-simple-captcha";
-import { Link } from "react-router-dom";
 
-const Login = () => {
-  const captchaRef = useRef(null);
-  const [disabled, setDisabled] = useState(true);
-  useEffect(() => {
-    loadCaptchaEnginge(3);
-  }, []);
-
-  const handleLogin = (event) => {
+const SignUp = () => {
+  const handleSignUp = (event) => {
     event.preventDefault();
     const form = event.target;
+    const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    console.log(name, email, password);
   };
 
-  const handleValidateCaptcha = () => {
-    const user_captcha_value = captchaRef.current.value;
-    // console.log(user_captcha_value);
-    if (validateCaptcha(user_captcha_value) == true) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-      alert("Valided captcha first!");
-    }
-  };
   return (
     <div
       className="hero min-h-screen"
@@ -52,8 +31,18 @@ const Login = () => {
 
         <div className="card md:w-1/2">
           <div className="w-full max-w-lg p-8 space-y-3 rounded-xl ">
-            <h1 className="text-4xl font-bold text-center">Login</h1>
-            <form onSubmit={handleLogin} action="" className="space-y-6">
+            <h1 className="text-4xl font-bold text-center">Sign Up</h1>
+            <form onSubmit={handleSignUp} action="" className="space-y-6">
+              <div className="space-y-1 text-xl font-semibold">
+                <label className="block ">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="username"
+                  placeholder="Type here"
+                  className="w-full  px-4 py-3 rounded-md text-base"
+                />
+              </div>
               <div className="space-y-1 text-xl font-semibold">
                 <label className="block ">Email</label>
                 <input
@@ -75,38 +64,22 @@ const Login = () => {
                 />
               </div>
 
-              <div className="space-y-1 text-xl font-semibold">
-                <div>
-                  <LoadCanvasTemplate />
-                </div>
-
-                <input
-                  type="text"
-                  ref={captchaRef}
-                  name="cap"
-                  id="cap"
-                  placeholder="Type captcha"
-                  className="w-full px-4 py-3 rounded-md text-base"
-                />
-                <button
-                  onClick={handleValidateCaptcha}
-                  className="btn btn-outline btn-xs mt-2 text-white bg-[#D1A054]"
-                >
-                  Validate
-                </button>
-              </div>
               <input
-                disabled={disabled}
                 className="btn btn-primary w-full hover:bg-[#D1A054] border-0 hover:shadow-xl text-white bg-[#D1A054]"
                 type="submit"
-                value="Sign In"
+                value="Sign Up"
               />
             </form>
             <p className="text-lg text-[#D1A054] font-medium text-center sm:px-6 ">
-              New here?
-              <Link to="/register" rel="noopener noreferrer" href="#" className="underline ">
+              Already registered?
+              <Link
+                to="/login"
+                rel="noopener noreferrer"
+                href="#"
+                className="underline "
+              >
                 {" "}
-                Create a New Account
+                Go to log in
               </Link>
             </p>
             <div className="flex items-center pt-4 space-x-1">
@@ -159,4 +132,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

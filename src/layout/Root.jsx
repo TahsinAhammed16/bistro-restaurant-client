@@ -5,13 +5,14 @@ import Navbar from "../pages/shared/navbar/Navbar";
 const Root = () => {
   const location = useLocation();
   // console.log(location);
-  const noHeaderFooter = location.pathname.includes("login");
+  const noHeaderFooterLog = location.pathname.includes("login");
+  const noHeaderFooterReg = location.pathname.includes("register");
 
   return (
     <div>
-      {noHeaderFooter || <Navbar></Navbar>}
+      {noHeaderFooterLog || noHeaderFooterReg || <Navbar></Navbar>}
       <Outlet></Outlet>
-      {noHeaderFooter || <Footer></Footer>}
+      {noHeaderFooterLog || noHeaderFooterReg || <Footer></Footer>}
     </div>
   );
 };
