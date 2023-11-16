@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import bgImage from "../../assets/others/authentication.png";
 import loginImage from "../../assets/others/authentication2.png";
 import {
@@ -8,6 +8,8 @@ import {
 } from "react-simple-captcha";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const captchaRef = useRef(null);
@@ -16,12 +18,26 @@ const Login = () => {
     loadCaptchaEnginge(3);
   }, []);
 
+  const { signIn } = useContext(AuthContext);
+
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+
+    signIn(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("created user", user);
+        Swal.fire({
+          title: "Good job!",
+          text: "User Login Successful!",
+          icon: "success",
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleValidateCaptcha = () => {

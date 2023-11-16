@@ -1,6 +1,14 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleSignOut = () => {
+    logOut().then().catch();
+  };
+
   const navOptions = (
     <>
       <li>
@@ -95,34 +103,46 @@ const Navbar = () => {
           </ul>
         </div>
         <div>
-          <div className="dropdown dropdown-end ml-2">
-           
-            <Link to="/login">
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                  <img src="https://www.summithealth.org.au/wp-content/uploads/2021/07/placeholder.jpg" />
-                </div>
-              </label>{" "}
-            </Link>
+          {user ? (
+            <>
+              <div className="dropdown dropdown-end ml-2">
+                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full">
+                    <img src="https://www.summithealth.org.au/wp-content/uploads/2021/07/placeholder.jpg" />
+                  </div>
+                </label>
 
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>Logout</a>
-              </li>
-            </ul>
-          </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <a className="justify-between">
+                      Profile
+                      <span className="badge">New</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a>Settings</a>
+                  </li>
+                  <li>
+                    <a onClick={handleSignOut} className="bg-red-600 text-white font-semibold">Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : (
+            <>
+              {" "}
+              <Link to="/login">
+                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full">
+                    <img src="https://www.summithealth.org.au/wp-content/uploads/2021/07/placeholder.jpg" />
+                  </div>
+                </label>{" "}
+              </Link>{" "}
+            </>
+          )}
         </div>
       </div>
     </>
