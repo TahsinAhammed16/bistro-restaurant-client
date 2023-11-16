@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const navOptions = (
@@ -96,11 +96,15 @@ const Navbar = () => {
         </div>
         <div>
           <div className="dropdown dropdown-end ml-2">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <img src="https://www.summithealth.org.au/wp-content/uploads/2021/07/placeholder.jpg" />
-              </div>
-            </label>
+           
+            <Link to="/login">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img src="https://www.summithealth.org.au/wp-content/uploads/2021/07/placeholder.jpg" />
+                </div>
+              </label>{" "}
+            </Link>
+
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
