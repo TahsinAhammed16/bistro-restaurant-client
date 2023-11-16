@@ -41,7 +41,7 @@ const Login = () => {
       }}
     >
       <div
-        className="hero-content rounded-lg flex-col md:flex-row-reverse justify-between h-max lg:h-[680px]  w-[400px] lg:w-[1000px] shadow-none lg:shadow-2xl"
+        className="hero-content rounded-lg flex-col  md:flex-row justify-between h-max lg:h-[680px]  w-[400px] lg:w-[1000px] shadow-none lg:shadow-2xl"
         style={{
           backgroundImage: `url(${bgImage})`,
         }}

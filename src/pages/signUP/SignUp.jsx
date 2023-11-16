@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
 import bgImage from "../../assets/others/authentication.png";
 import loginImage from "../../assets/others/authentication2.png";
+import { useForm } from "react-hook-form";
 
 const SignUp = () => {
-  const handleSignUp = (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(name, email, password);
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
   return (
@@ -32,36 +35,70 @@ const SignUp = () => {
         <div className="card md:w-1/2">
           <div className="w-full max-w-lg p-8 space-y-3 rounded-xl ">
             <h1 className="text-4xl font-bold text-center">Sign Up</h1>
-            <form onSubmit={handleSignUp} action="" className="space-y-6">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              action=""
+              className="space-y-6"
+            >
               <div className="space-y-1 text-xl font-semibold">
                 <label className="block ">Name</label>
                 <input
+                  {...register("name", { required: true })}
                   type="text"
-                  name="name"
-                  id="username"
                   placeholder="Type here"
                   className="w-full  px-4 py-3 rounded-md text-base"
                 />
+                {errors.name && (
+                  <span className="text-red-500 text-sm">
+                    This field is required
+                  </span>
+                )}
               </div>
               <div className="space-y-1 text-xl font-semibold">
                 <label className="block ">Email</label>
                 <input
+                  {...register("email", { required: true })}
                   type="email"
-                  name="email"
-                  id="username"
                   placeholder="Type here"
                   className="w-full  px-4 py-3 rounded-md text-base"
                 />
+                {errors.email && (
+                  <span className="text-red-500 text-sm">
+                    This field is required
+                  </span>
+                )}
               </div>
               <div className="space-y-1 text-xl font-semibold">
                 <label className="block">Password</label>
                 <input
+                  {...register("password", {
+                    required: true,
+                    min: 6,
+                    max: 10,
+                    pattern: /^(?!.*[A-Z])(?!.*[!@#$%^&*()_+])(?!.*\d).{6,}$/,
+                  })}
                   type="password"
-                  name="password"
-                  id="password"
                   placeholder="Enter your password"
                   className="w-full px-4 py-3 rounded-md text-base"
                 />
+                {errors.password?.type === "required" && (
+                  <p className="text-red-500 text-sm">Password is required</p>
+                )}
+                {errors.password?.type === "min" && (
+                  <p className="text-red-500 text-sm">
+                    Password must be 6 characters
+                  </p>
+                )}
+                {errors.password?.type === "max" && (
+                  <p className="text-red-500 text-sm">
+                    Password must be less than 10 characters
+                  </p>
+                )}
+                {errors.password?.type === "pattern" && (
+                  <p className="text-red-500 text-sm">
+                    Password can't have capital letter, numeric and special characters.
+                  </p>
+                )}
               </div>
 
               <input
