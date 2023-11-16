@@ -1,13 +1,36 @@
+import { useEffect, useRef, useState } from "react";
 import bgImage from "../../assets/others/authentication.png";
 import loginImage from "../../assets/others/authentication2.png";
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  validateCaptcha,
+} from "react-simple-captcha";
 
 const Login = () => {
+  const captchaRef = useRef(null);
+  const [disabled, setDisabled] = useState(true);
+  useEffect(() => {
+    loadCaptchaEnginge(3);
+  }, []);
+
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+  };
+
+  const handleValidateCaptcha = () => {
+    const user_captcha_value = captchaRef.current.value;
+    // console.log(user_captcha_value);
+    if (validateCaptcha(user_captcha_value) == true) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+      alert("Valided captcha first!");
+    }
   };
   return (
     <div
@@ -16,11 +39,14 @@ const Login = () => {
         backgroundImage: `url(${bgImage})`,
       }}
     >
-      <div className="hero-content flex-col md:flex-row-reverse justify-between h-max lg:h-[550px]  w-[400px] lg:w-[1000px] shadow-none lg:shadow-2xl"  style={{
-        backgroundImage: `url(${bgImage})`,
-      }}>
+      <div
+        className="hero-content rounded-lg flex-col md:flex-row-reverse justify-between h-max lg:h-[680px]  w-[400px] lg:w-[1000px] shadow-none lg:shadow-2xl"
+        style={{
+          backgroundImage: `url(${bgImage})`,
+        }}
+      >
         <div className="text-center md:w-1/2 lg:text-left">
-        <img src={loginImage} alt="" />
+          <img src={loginImage} alt="" />
         </div>
 
         <div className="card md:w-1/2">
@@ -38,7 +64,7 @@ const Login = () => {
                 />
               </div>
               <div className="space-y-1 text-xl font-semibold">
-                <label className="block ">Password</label>
+                <label className="block">Password</label>
                 <input
                   type="password"
                   name="password"
@@ -47,9 +73,33 @@ const Login = () => {
                   className="w-full px-4 py-3 rounded-md text-base"
                 />
               </div>
-              <button className="block w-full p-3 text-center rounded-sm bg-[#D1A054] hover:shadow-md text-white font-medium text-lg">
-                Sign in
-              </button>
+
+              <div className="space-y-1 text-xl font-semibold">
+                <div>
+                  <LoadCanvasTemplate />
+                </div>
+
+                <input
+                  type="text"
+                  ref={captchaRef}
+                  name="cap"
+                  id="cap"
+                  placeholder="Type captcha"
+                  className="w-full px-4 py-3 rounded-md text-base"
+                />
+                <button
+                  onClick={handleValidateCaptcha}
+                  className="btn btn-outline btn-xs mt-2 text-white bg-[#D1A054]"
+                >
+                  Validate
+                </button>
+              </div>
+              <input
+                disabled={disabled}
+                className="btn btn-primary w-full hover:bg-[#D1A054] border-0 hover:shadow-xl text-white bg-[#D1A054]"
+                type="submit"
+                value="Sign In"
+              />
             </form>
             <p className="text-lg text-[#D1A054] font-medium text-center sm:px-6 ">
               New here?
