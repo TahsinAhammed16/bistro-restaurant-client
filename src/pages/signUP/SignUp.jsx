@@ -1,26 +1,43 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bgImage from "../../assets/others/authentication.png";
 import loginImage from "../../assets/others/authentication2.png";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
 
   const onSubmit = (data) => {
     console.log(data);
-    createUser(data.email, data.password).then((userCredential) => {
-      const user = userCredential.user;
-      console.log(user);
-    });
+
+    createUser(data.email, data.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        updateUserProfile(data.name, data.photoURL).then(() => {
+          console.log("user profile info updated");
+          reset();
+          Swal.fire({
+            title: "Good job!",
+            text: "User Registration Successful!",
+            icon: "success",
+          });
+        });
+        navigate("/");
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -63,6 +80,20 @@ const SignUp = () => {
                   {errors.name && (
                     <span className="text-red-500 text-sm">
                       This field is required
+                    </span>
+                  )}
+                </div>
+                <div className="space-y-1 text-xl font-semibold">
+                  <label className="block ">Photo URL</label>
+                  <input
+                    {...register("photoURL", { required: true })}
+                    type="url"
+                    placeholder="https://"
+                    className="w-full  px-4 py-3 rounded-md text-base"
+                  />
+                  {errors.photoURL && (
+                    <span className="text-red-500 text-sm">
+                      Insert Your Profile Image Link
                     </span>
                   )}
                 </div>

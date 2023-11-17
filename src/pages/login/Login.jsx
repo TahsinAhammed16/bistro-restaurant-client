@@ -6,7 +6,7 @@ import {
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
@@ -14,6 +14,10 @@ import Swal from "sweetalert2";
 const Login = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+
   useEffect(() => {
     loadCaptchaEnginge(3);
   }, []);
@@ -36,6 +40,7 @@ const Login = () => {
           text: "User Login Successful!",
           icon: "success",
         });
+        navigate(location.state ? location.state : "/");
       })
       .catch((error) => console.log(error));
   };
