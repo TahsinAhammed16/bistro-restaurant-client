@@ -1,9 +1,38 @@
+import Swal from "sweetalert2";
 import SectionTitle from "../../../components/sectionTitle/SectionTitle";
+import useAxios from "../../../hooks/useAxios";
 import useCart from "../../../hooks/useCart";
+import { RiDeleteBin4Line } from "react-icons/ri";
 
 const Cart = () => {
-  const [cart] = useCart();
+  const [cart, refetch] = useCart();
+  const axiosSecure = useAxios();
   const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/carts/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
   return (
     <>
       <SectionTitle
@@ -31,29 +60,27 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
-              {cart.map((item) => (
+              {cart.map((item, idx) => (
                 <tr key={item._id}>
-                  <td></td>
+                  <td className="font-bold">{idx + 1}</td>
                   <td>
                     <div className="avatar">
                       <div className="mask w-12 h-12">
-                        <img
-                          src={item.image}
-                          alt="Avatar Tailwind CSS Component"
-                        />
+                        <img src={item.image} alt="" />
                       </div>
                     </div>
                   </td>
                   <td>
-                    Zemlak, Daniel and Leannon
-                    <br />
-                    <span className="badge badge-ghost badge-sm">
-                      Desktop Support Technician
-                    </span>
+                    <p>{item.name}</p>
                   </td>
-                  <td>Purple</td>
+                  <td>{item.price}$</td>
                   <th>
-                    <button className="btn btn-ghost btn-xs">details</button>
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      className=" btn bg-red-600 btn-sm text-white"
+                    >
+                      <RiDeleteBin4Line />
+                    </button>
                   </th>
                 </tr>
               ))}

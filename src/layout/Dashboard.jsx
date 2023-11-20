@@ -9,8 +9,11 @@ import {
 } from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
+import useCart from "../hooks/useCart";
 
 const Dashboard = () => {
+  const [cart] = useCart();
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -91,7 +94,7 @@ const Dashboard = () => {
                   : "text-[#151515] font-medium"
               }
             >
-              <FaList></FaList> MY CART
+              <FaList></FaList> MY CART ({cart.length})
             </NavLink>
           </li>
           <li>
